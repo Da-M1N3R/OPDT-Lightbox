@@ -26,29 +26,6 @@ const lightbox = document.createElement('div');
 lightbox.id = 'lightbox';
 document.body.appendChild(lightbox);
 
-const images = document.querySelectorAll('img')
-console.log("this")
-console.log(images)
-images.forEach(image => {
-  console.log(images)
-  console.log("Hello here ---")
-  image.addEventListener('click', e => {
-    lightbox.classList.add('active')
-    const img = document.createElement('img')
-    img.src = image.src
-    while (lightbox.firstChild) {
-      lightbox.removeChild(lightbox.firstChild)
-    }
-    lightbox.appendChild(img)
-    console.log("Here noww - inside lightbox")
-  })
-})
-lightbox.addEventListener('click', e => {
-  if (e.target !== e.currentTarget) return
-  lightbox.classList.remove('active')
-})
-console.log("outside")
-
 fetch('data.json').then(response => response.json()).then(data => {
   const characters = data;
   characters.forEach(character => {
@@ -56,6 +33,30 @@ fetch('data.json').then(response => response.json()).then(data => {
     gallery.innerHTML += cardHTML;
     console.log("displayed characters");
 
-    
+    const images = document.querySelectorAll('.gallery .card')
+    console.log("this")
+    console.log(images)
+    images.forEach(image => {
+      console.log(images)
+      console.log("Hello here ---")
+      image.addEventListener('click', e => {
+        let img = image.cloneNode(true);
+        lightbox.classList.add('active')
+        // const img = document.createElement('img')
+        // img.src = image.src
+        
+        lightbox.appendChild(img);
+        while (lightbox.firstChild) {
+          lightbox.removeChild(lightbox.firstChild)
+        }
+        lightbox.appendChild(img)
+        console.log("Here noww - inside lightbox")
+      })
+    })
+    lightbox.addEventListener('click', e => {
+      if (e.target !== e.currentTarget) return
+      lightbox.classList.remove('active')
+    })
+    console.log("outside")
   })
 }).catch(error => console.error(error));
